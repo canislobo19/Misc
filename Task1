@@ -1,0 +1,83 @@
+import requests
+from datetime import datetime
+import pytz
+import json
+
+def get_api_response(url):
+    headers = {
+        'SAI-Key': '',   # Place your API Key here.
+        'accept': 'application/json'
+    }
+
+    try:
+        response = requests.get(url, headers=headers)
+        response.raise_for_status()
+        
+        return response.json()
+    except Exception as err:
+        return {"error": f"An error occurred: {err}"}
+
+list_endpoints_url = 'https://api.smarterai.com/v4/endpoints?type=DEVICE&status=ACTIVE&offset=0&size=10000'
+
+endpoints = get_api_response(list_endpoints_url)
+
+# Initialize the variable for the 'id' of the desired endpoint
+tesla_46_id = None
+
+# Check if the response is an error before proceeding
+if 'error' in endpoints:
+    print(endpoints['error'])
+else:
+    endpoint_ids = [obj['id'] for obj in endpoints]
+
+    for endpoint_id in endpoint_ids:
+        url = f'https://api.smarterai.com/v4/endpoints/{endpoint_id}'
+        response = get_api_response(url)
+
+        # Check if the response is an error before proceeding
+        if 'error' in response:
+            print(response['error'])
+            continue  # Skip this iteration if an error occurred
+
+        # Check if the current endpoint is "Tesla 46"
+        if response['label'] == 'Tesla 46':
+            tesla_46_id = response['id']  # Save the 'id' field
+            break  # Exit the loop
+
+    # If the "Tesla 46" endpoint was found, the variable will contain its 'id'
+    if tesla_46_id is not None:
+        print("Found 'Tesla 46' endpoint ID:", tesla_46_id)
+    else:
+        print("'Tesla 46' endpoint not found.")
+
+device_id = tesla_46_id
+
+
+
+# Define the date and time
+year = 2023
+month = 10
+day = 6
+hour = 10  # 10 AM
+minute = 0
+
+# Define the timezone: Gulf Standard Time (GST)
+timezone_str = 'Asia/Dubai'  # Dubai uses Gulf Standard Time
+timezone = pytz.timezone(timezone_str)
+
+# Create a datetime object
+dt = datetime(year, month, day, hour, minute)
+# Localize the datetime object with the timezone (making it timezone-aware)
+localized_dt = timezone.localize(dt)
+
+# Convert the localized datetime object to a UTC timestamp (seconds since epoch)
+timestamp_seconds = (localized_dt - datetime(1970, 1, 1, tzinfo=pytz.utc)).total_seconds()
+
+# Convert the timestamp to milliseconds and to int64 format
+timestamp_milliseconds = int(timestamp_seconds * 1000)
+endTime = timestamp_milliseconds
+
+event_details_url = f'https://api.smarterai.com/v4/events?endpointId={device_id}&endTime={endTime}&search=Speed%20limit%20violation&offset=0&size=1000'
+event_details = get_api_response(event_details_url)
+json_str = json.dumps(event_details, indent=4)
+print(json_str)
