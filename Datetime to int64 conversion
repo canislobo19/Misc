@@ -1,0 +1,27 @@
+from datetime import datetime
+import pytz
+
+# Define the date and time
+year = 2023
+month = 10
+day = 6
+hour = 10  # 10 AM
+minute = 0
+
+# Define the timezone: Gulf Standard Time (GST)
+timezone_str = 'Asia/Dubai'  # Dubai uses Gulf Standard Time
+timezone = pytz.timezone(timezone_str)
+
+# Create a datetime object
+dt = datetime(year, month, day, hour, minute)
+# Localize the datetime object with the timezone (making it timezone-aware)
+localized_dt = timezone.localize(dt)
+
+# Convert the localized datetime object to a UTC timestamp (seconds since epoch)
+timestamp_seconds = (localized_dt - datetime(1970, 1, 1, tzinfo=pytz.utc)).total_seconds()
+
+# Convert the timestamp to milliseconds and to int64 format
+timestamp_milliseconds = int(timestamp_seconds * 1000)
+
+# Output the result
+print(timestamp_milliseconds)
