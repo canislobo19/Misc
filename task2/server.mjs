@@ -1,6 +1,6 @@
 // server.mjs
 import express from 'express';
-import fetch from 'node-fetch'; // Make sure you have node-fetch installed as a dependency
+import fetch from 'node-fetch';
 
 const app = express();
 const PORT = 3000;
