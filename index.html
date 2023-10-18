@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Events</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+        #container {
+            max-width: 680px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            margin-top: 50px;
+        }
+        h1 {
+            text-align: center;
+        }
+        #buttonContainer {
+            text-align: center; /* Centers the button */
+            margin-bottom: 20px; /* Optional: for some space below the button */
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        video {
+            width: 100%;
+            margin-top: 20px;
+        }
+        #loadingBar {
+            width: 100%; /* Will be updated during the loading process */
+            height: 20px;
+            background-color: grey;
+            display: none; /* Initially hidden */
+        }
+        #loadingPercentage {
+            margin-top: 10px;
+        }
+        #navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+        #videoCounter {
+            margin: 0; /* Reset margin */
+            padding: 0; /* Reset padding */
+            text-align: center; /* Centers the text within the element */
+            flex-grow: 1; /* Allows the element to take up available space */
+        }
+        .hidden {
+            display: none;
+        }
+        /* New styles for triggerName and deviceLabel */
+        #triggerNameLabel,
+        #deviceLabel {
+            text-align: center;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h1>Smarter AI Event Fetch</h1>
+        <!-- Button container added here -->
+        <div id="buttonContainer">
+            <button id="getEvents">Load Events</button>
+        </div>
+        <div id="loadingBar"></div>
+        <div id="loadingPercentage" style="visibility: hidden;"></div> <!-- Initially hidden -->
+        
+        <!-- Placeholder for triggerName and deviceLabel above the video -->
+        <div id="videoInfo">
+            <div id="triggerNameLabel" class="hidden"></div>
+            <div id="deviceLabel" class="hidden"></div>
+        </div>
+        
+        <video id="currentVideo" controls autoplay style="width: 100%; margin-top: 20px;"></video>
+        <div id="navigation">
+            <button id="prevVideo" class="hidden">Previous Video</button>
+            <p id="videoCounter" class="hidden">1 of X</p> <!-- Placeholder for video sequence number -->
+            <button id="nextVideo" class="hidden">Next Video</button>
+        </div>
+    </div>
+
+    <script src="/app.js" type="module"></script>
+</body>
+</html>
