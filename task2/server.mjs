@@ -11,7 +11,7 @@ app.get('/get-events', async (req, res) => {
     try {
         const eventResponse = await fetch('https://api.smarterai.com/v4/events/1186609099327256', {
             headers: {
-                'SAI-Key': '1490',
+                'SAI-Key': '',  // Place API key here
                 'accept': 'application/json',
             },
         });
